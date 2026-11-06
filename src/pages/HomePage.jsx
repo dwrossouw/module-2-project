@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
+import TrendingCarousel from "../components/TrendingCarousel";
 
 function HomePage() {
   return (
@@ -43,7 +44,9 @@ function HomePage() {
           <Link to="/discover" className="text-enchanted-teal font-medium hover:text-midnight">View More →</Link>
         </div>
 
-        <div></div>
+        <div>
+          <TrendingCarousel />
+        </div>
         <Link></Link>
       </section>
 

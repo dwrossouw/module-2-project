@@ -14,20 +14,24 @@ import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-ivory flex flex-col">
       <Navbar />
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/bookshelf" element={<BookshelfPage />} />
-        <Route path="/bookshelf/:bookId" element={<BookDetailsPages />} />
-        <Route path="/discover" element={<DiscoverPage />} />
-        <Route path="/discover/:workId" element={<DiscoverBookDetailsPage />} />
-        <Route path="/bookshelf/:bookId/edit" element={<EditBookPage />} />
-        <Route path="/discover/:workId/add" element={<AddBookPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <div className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/bookshelf" element={<BookshelfPage />} />
+          <Route path="/bookshelf/:bookId" element={<BookDetailsPages />} />
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route
+            path="/discover/:workId"
+            element={<DiscoverBookDetailsPage />}
+          />
+          <Route path="/bookshelf/:bookId/edit" element={<EditBookPage />} />
+          <Route path="/discover/:workId/add" element={<AddBookPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
 
       <Footer />
     </div>

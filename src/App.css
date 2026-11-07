@@ -22,3 +22,48 @@ Warm Ivory
 #FFF4E4
 
 Page background, light surfaces*/
+
+.book-3d {
+  position: relative;
+  width: 85%;
+  margin: 5px auto 12px;
+
+  transform: perspective(600px) rotateY(-12deg);
+  transform-origin: center;
+
+  box-shadow:
+    3px 3px 0px #d6d0c6,
+    6px 6px 0px #aaa49a,
+    9px 10px 14px rgba(0, 0, 0, 0.25);
+
+  border-radius: 2px 5px 5px 2px;
+  transition: transform 0.3s ease;
+}
+
+.book-3d img {
+  display: block;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.book-3d::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 100%;
+
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.55),
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+
+  z-index: 1;
+}
+
+.book-3d:hover {
+  transform: perspective(600px) rotateY(-3deg) translateY(-5px);
+}

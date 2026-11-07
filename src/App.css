@@ -43,6 +43,8 @@ Page background, light surfaces*/
 .book-3d img {
   display: block;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: inherit;
 }
 

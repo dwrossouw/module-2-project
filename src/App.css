@@ -69,3 +69,21 @@ Page background, light surfaces*/
 .book-3d:hover {
   transform: perspective(600px) rotateY(-3deg) translateY(-5px);
 }
+
+.book-3d-large {
+  width: 180px;
+  margin: 5px 15px 20px 10px;
+  flex-shrink: 0;
+
+  transform: perspective(600px) rotateY(-12deg);
+  transition: none;
+
+  box-shadow:
+    4px 4px 0px #d6d0c6,
+    8px 8px 0px #aaa49a,
+    12px 12px 16px rgba(0, 0, 0, 0.25);
+}
+
+.book-3d-large::before {
+  width: 11px;
+}

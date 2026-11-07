@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function BookshelfPage() {
   const [shelfBooks, setShelfBooks] = useState([]);
@@ -36,11 +37,13 @@ function BookshelfPage() {
           return (
             <div key={book.id}>
               <div className="book-3d aspect-[7/10]">
+              <Link to={`/bookshelf/${book.id}`}>
                 <img
                   src={`https://covers.openlibrary.org/b/id/${book.coverId}-L.jpg`}
                   alt="Cover image"
                   className="w-full h-full object-cover min-w-0"
                 />
+                </Link>
               </div>
               
               <p>{book.title}</p>

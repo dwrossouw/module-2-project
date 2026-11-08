@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 function BookDetailsPage() {
   const { bookId } = useParams();
   const [bookDetails, setBookDetails] = useState({});
+  const [reviewData, setReviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -13,10 +14,15 @@ function BookDetailsPage() {
 
   const getData = async () => {
     try {
-      const response = await axios.get(
+      const responseBook = await axios.get(
         `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
       );
-      setBookDetails(response.data);
+      const responseReview = await axios.get(
+        `${import.meta.env.VITE_JSON_SERVER_URL}/reviews?bookId=${bookId}`,
+      );
+      console.log("Review response: ", responseReview);
+      setBookDetails(responseBook.data);
+      setReviewData(responseReview.data[0] ?? null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -24,22 +30,54 @@ function BookDetailsPage() {
     }
   };
   console.log(bookDetails);
+  console.log("Review Data: ", reviewData?.rating);
   if (isLoading) return <h3>Loading...</h3>;
 
+  const statusColors = {
+    "Want to read": "bg-[#F8E9C7] text-[#86631E]",
+    Reading: "bg-[#D9EFED] text-[#247F80]",
+    Finished: "bg-[#DCEFE7] text-[#28694E]",
+    "Did not finish": "bg-[#F8DDD5] text-[#A34E3C]",
+  };
+
   return (
-    <div className="flex md:flex-row">
-      <div className="book-3d book-3d-large">
-        <img
-          src={`https://covers.openlibrary.org/b/id/${bookDetails.coverId}-L.jpg`}
-          alt="Cover Image" className="w-48 object-cover"
-        />
-      </div>
-      <div>
-        <h1 className="text-2xl font-semibold">{bookDetails.title}</h1>
-        <p>by {bookDetails.author}</p>
-        <p>Status: {bookDetails.status}</p>
-        <p>My rating: </p>
-      </div>
+    <div className="mx-auto max-w-4xl px-4 space-y-8">
+      {" "}
+      <section className="flex flex-col items-center  py-8 gap-8 md:flex-row md:items-start">
+        <div className="book-3d book-3d-large">
+          <img
+            src={`https://covers.openlibrary.org/b/id/${bookDetails.coverId}-L.jpg`}
+            alt="Cover Image"
+            className="w-48 object-cover"
+          />
+        </div>
+        <div className="w-full text-center md:flex-1 md:text-left">
+          <h1 className="text-3xl font-semibold text-midnight md:text-4xl leading-tight">
+            {bookDetails.title}
+          </h1>
+          <p className="text-lg font-normal text-gray-600 mt-2">
+            by {bookDetails.author}
+          </p>
+          <p className="mt-2">Status:
+            <span
+              className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${statusColors[bookDetails.status]}`}
+            >
+              {bookDetails.status}
+            </span>
+          </p>
+          <p>My rating: {reviewData?.rating}</p>
+        </div>
+      </section>
+      <hr />
+      <section>
+        <h2 className="text-2xl font-semibold text-midnight mb-4 text-center">About This Book</h2>
+        <p className="text-gray-700 leading-relaxed text-base">{bookDetails.description}</p>
+      </section>
+      <hr />
+      <section>
+        <h2 className="text-2xl font-semibold text-midnight mb-4 text-center">My review</h2>
+        <p>{reviewData?.comment}</p>
+      </section>
     </div>
   );
 }

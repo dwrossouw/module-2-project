@@ -72,7 +72,7 @@ Page background, light surfaces*/
 
 .book-3d-large {
   width: 180px;
-  margin: 5px 15px 20px 10px;
+  margin: 0 auto;
   flex-shrink: 0;
 
   transform: perspective(600px) rotateY(-12deg);
@@ -86,4 +86,8 @@ Page background, light surfaces*/
 
 .book-3d-large::before {
   width: 11px;
+}
+
+.book-3d-large:hover {
+  transform: perspective(600px) rotateY(-12deg);
 }

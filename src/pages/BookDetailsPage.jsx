@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { getBookDetails, getReviewDetails, deleteBook } from "@/services/api";
 
 function BookDetailsPage() {
   const { bookId } = useParams();
@@ -16,14 +17,11 @@ function BookDetailsPage() {
   const getData = async () => {
     setIsLoading(true);
     try {
-      const responseBook = await axios.get(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
-      );
-      const responseReview = await axios.get(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/reviews?bookId=${bookId}`,
-      );
-      setBookDetails(responseBook.data);
-      setReviewData(responseReview.data[0] ?? null);
+      const responseBook = await getBookDetails(bookId);
+      const responseReview = await getReviewDetails (bookId);
+   
+      setBookDetails(responseBook);
+      setReviewData(responseReview ?? null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -33,9 +31,7 @@ function BookDetailsPage() {
 
   const handleRemoveBook = async (e) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
-      );
+      await deleteBook(bookId);
       navigate("/bookshelf");
     } catch (error) {
       console.log(error);
@@ -48,6 +44,7 @@ function BookDetailsPage() {
     Finished: "bg-[#DCEFE7] text-[#28694E]",
     "Did not finish": "bg-[#F8DDD5] text-[#A34E3C]",
   };
+
   if (isLoading) return <h3>Loading...</h3>;
 
   return (

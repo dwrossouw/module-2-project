@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { getSavedBooks } from "@/services/api";
 
 function BookshelfPage() {
   const [shelfBooks, setShelfBooks] = useState([]);
@@ -13,10 +13,8 @@ function BookshelfPage() {
   const getData = async () => {
     console.log("request initiated");
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books`,
-      );
-      setShelfBooks(response.data);
+      const response = await getSavedBooks();
+      setShelfBooks(response);
     } catch (error) {
       console.log(error);
     } finally {

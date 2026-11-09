@@ -1,6 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  addReview,
+  getBookDetails,
+  getReviewDetails,
+  updateReview,
+  updateStatus,
+} from "@/services/api";
 
 function EditBookPage() {
   const { bookId } = useParams();
@@ -22,18 +29,15 @@ function EditBookPage() {
   const getData = async () => {
     setIsLoading(true);
     try {
-      const responseBook = await axios.get(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
-      );
-      const responseReview = await axios.get(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/reviews?bookId=${bookId}`,
-      );
-      setBookDetails(responseBook.data);
-      setReviewData(responseReview.data[0] ?? null);
+      const responseBook = await getBookDetails(bookId);
+      const responseReview = await getReviewDetails(bookId);
+      setBookDetails(responseBook);
+      setReviewData(responseReview ?? null);
+
       const formDataObj = {
-        status: responseBook.data.status,
-        rating: responseReview.data[0]?.rating ?? 0,
-        comment: responseReview.data[0]?.comment ?? "",
+        status: responseBook.status,
+        rating: responseReview?.rating ?? 0,
+        comment: responseReview?.comment ?? "",
       };
       setFormData(formDataObj);
     } catch (error) {
@@ -56,21 +60,12 @@ function EditBookPage() {
     e.preventDefault();
 
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
-        { status: formData.status },
-      );
+      await updateStatus(bookId, formData.status);
+
       if (reviewData) {
-        await axios.patch(
-          `${import.meta.env.VITE_JSON_SERVER_URL}/reviews/${reviewData.id}`,
-          { rating: formData.rating, comment: formData.comment },
-        );
+        await updateReview(reviewData.id, formData.rating, formData.comment);
       } else if (formData.rating !== 0 || formData.comment !== "") {
-        await axios.post(`${import.meta.env.VITE_JSON_SERVER_URL}/reviews`, {
-          bookId: bookId,
-          rating: formData.rating,
-          comment: formData.comment,
-        });
+        await addReview(bookId, formData.rating, formData.comment);
       }
       navigate(`/bookshelf/${bookId}`);
     } catch (error) {

@@ -1,8 +1,34 @@
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
-import TrendingCarousel from "../components/TrendingCarousel";
+import BookCarousel from "../components/BookCarousel";
+import { getTrendingBooks } from "../services/api";
+import { useState, useEffect } from "react";
 
 function HomePage() {
+  const [trendingBooks, setTrendingBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await getTrendingBooks();
+      setTrendingBooks(response);
+      
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  console.log("Trending books: ", trendingBooks);
+
+  if (isLoading) {
+    return <h3>Loading...</h3>;
+  }
+
   return (
     <main className="homeContainer">
       {/* Hero Section */}
@@ -40,14 +66,20 @@ function HomePage() {
       {/* Trending Books */}
       <section className="max-w-6xl mx-auto px-4 py-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl text-midnight font-semibold">Trending Books</h2>
-          <Link to="/discover" className="text-enchanted-teal font-medium hover:text-midnight">View More →</Link>
+          <h2 className="text-2xl text-midnight font-semibold">
+            Trending Books
+          </h2>
+          <Link
+            to="/discover"
+            className="text-enchanted-teal font-medium hover:text-midnight"
+          >
+            View More →
+          </Link>
         </div>
 
         <div>
-          <TrendingCarousel />
+          <BookCarousel books={trendingBooks}/>
         </div>
-        <Link></Link>
       </section>
 
       {/* Book Quiz */}

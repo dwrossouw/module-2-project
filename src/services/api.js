@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//OpenLibrary API functions
 export const getTrendingBooks = async () => {
   const response = await axios.get(
     `${import.meta.env.VITE_OPEN_LIBRARY_URL}/trending/daily.json?limit=20`,
@@ -8,6 +9,14 @@ export const getTrendingBooks = async () => {
   return response.data.works;
 };
 
+export const getDiscoverBookDetails = async (workId) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_OPEN_LIBRARY_URL}/works/${workId}.json`,
+  );
+  return response.data;
+};
+
+// JSON Server functions
 export const getSavedBooks = async () => {
   const response = await axios.get(
     `${import.meta.env.VITE_JSON_SERVER_URL}/books`,
@@ -49,12 +58,10 @@ export const addReview = async (bookId, rating, comment) => {
   await axios.post(`${import.meta.env.VITE_JSON_SERVER_URL}/reviews`, {
     bookId: bookId,
     rating: rating,
-    comment: comment
+    comment: comment,
   });
 };
 
-export const deleteBook = async (bookId)=> {
-  await axios.delete(
-        `${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`,
-      );
-}
+export const deleteBook = async (bookId) => {
+  await axios.delete(`${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`);
+};

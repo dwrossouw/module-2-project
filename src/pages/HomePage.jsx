@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+
 import BookCarousel from "../components/BookCarousel";
 import { getTrendingBooks } from "../services/api";
 import { useState, useEffect } from "react";
+import SearchBar from "@/components/SearchBar";
 
 function HomePage() {
   const [trendingBooks, setTrendingBooks] = useState([]);
@@ -40,20 +41,7 @@ function HomePage() {
           Discover stories, explore new worlds, and build your personal
           bookshelf.
         </p>
-        <form className="flex max-w-xl w-full gap-2">
-          <input
-            type="search"
-            name="search"
-            placeholder="Search books or authors..."
-            className="flex-1 min-w-0 bg-white rounded-lg border border-gray-300 px-4 py-2"
-          />
-          <button
-            type="submit"
-            className="bg-enchanted-teal text-ivory px-6 py-2 rounded-lg hover:bg-midnight cursor-pointer"
-          >
-            <Search size={20} />
-          </button>
-        </form>
+        <SearchBar />
         <Link
           to="/discover"
           className="bg-midnight text-ivory rounded-lg px-6 py-2 hover:bg-enchanted-teal transition-colors"

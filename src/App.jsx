@@ -9,7 +9,7 @@ import BookDetailsPages from "./pages/BookDetailsPage";
 import DiscoverBookDetailsPage from "./pages/DiscoverBookDetailsPage";
 import EditBookPage from "./pages/EditBookPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import AddBookPage from "./pages/AddBookPage";
+import SearchResultsPage from "./pages/SearchResultsPage";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
             element={<DiscoverBookDetailsPage />}
           />
           <Route path="/bookshelf/:bookId/edit" element={<EditBookPage />} />
-          <Route path="/discover/:workId/add" element={<AddBookPage />} />
+          <Route path="/search" element={<SearchResultsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

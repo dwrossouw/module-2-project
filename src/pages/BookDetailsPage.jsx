@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getBookDetails, getReviewDetails, deleteBook } from "@/services/api";
+import {
+  getBookDetails,
+  getReviewDetails,
+  deleteBook,
+  deleteReview,
+} from "@/services/api";
 
 function BookDetailsPage() {
   const { bookId } = useParams();
@@ -18,8 +23,8 @@ function BookDetailsPage() {
     setIsLoading(true);
     try {
       const responseBook = await getBookDetails(bookId);
-      const responseReview = await getReviewDetails (bookId);
-   
+      const responseReview = await getReviewDetails(bookId);
+
       setBookDetails(responseBook);
       setReviewData(responseReview ?? null);
     } catch (error) {
@@ -31,6 +36,11 @@ function BookDetailsPage() {
 
   const handleRemoveBook = async (e) => {
     try {
+      const reviewResponse = await getReviewDetails(bookId);
+      if (reviewResponse) {
+        await deleteReview(reviewResponse.id);
+      }
+
       await deleteBook(bookId);
       navigate("/bookshelf");
     } catch (error) {
@@ -92,13 +102,26 @@ function BookDetailsPage() {
         </h2>
         <p>{reviewData?.comment || "Not reviewed yet"}</p>
       </section>
-
       <section className="flex justify-between items-center pb-5">
-        <button onClick={() => navigate("/bookshelf")} className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer">Back</button>
+        <button
+          onClick={() => navigate("/bookshelf")}
+          className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
+        >
+          Back
+        </button>
         <div className="flex gap-3">
           {" "}
-          <Link to={`/bookshelf/${bookId}/edit`} className="bg-enchanted-teal rounded-lg text-white px-4 py-2 hover:bg-[#1D6667] transition-colors font-medium">Edit Book </Link>
-          <button type="button" onClick={handleRemoveBook} className="bg-[#A34E3C] rounded-lg text-white px-4 py-2 hover:bg-[#873E30] transition-colors font-medium">
+          <Link
+            to={`/bookshelf/${bookId}/edit`}
+            className="bg-enchanted-teal rounded-lg text-white px-4 py-2 hover:bg-[#1D6667] transition-colors font-medium"
+          >
+            Edit Book{" "}
+          </Link>
+          <button
+            type="button"
+            onClick={handleRemoveBook}
+            className="bg-[#A34E3C] rounded-lg text-white px-4 py-2 hover:bg-[#873E30] transition-colors font-medium"
+          >
             Remove from Bookshelf
           </button>
         </div>

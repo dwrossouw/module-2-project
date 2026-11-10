@@ -74,3 +74,7 @@ export const deleteBook = async (bookId) => {
 export const addBook = async (book) => {
   await axios.post (`${import.meta.env.VITE_JSON_SERVER_URL}/books`, book);
 }
+
+export const deleteReview = async (reviewId) =>{
+  await axios.delete(`${import.meta.env.VITE_JSON_SERVER_URL}/reviews/${reviewId}`);
+}

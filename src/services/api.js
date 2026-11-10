@@ -16,6 +16,11 @@ export const getDiscoverBookDetails = async (workId) => {
   return response.data;
 };
 
+export const getAuthorDetails = async (authorKey) => {
+  const response = await axios.get (`${import.meta.env.VITE_OPEN_LIBRARY_URL}${authorKey}.json`)
+  return response.data.name;
+}
+
 // JSON Server functions
 export const getSavedBooks = async () => {
   const response = await axios.get(
@@ -65,3 +70,7 @@ export const addReview = async (bookId, rating, comment) => {
 export const deleteBook = async (bookId) => {
   await axios.delete(`${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`);
 };
+
+export const addBook = async (book) => {
+  await axios.post (`${import.meta.env.VITE_JSON_SERVER_URL}/books`, book);
+}

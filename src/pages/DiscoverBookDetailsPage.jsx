@@ -1,20 +1,35 @@
-import { useParams } from "react-router-dom";
-import { getDiscoverBookDetails } from "@/services/api";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  getAuthorDetails,
+  getDiscoverBookDetails,
+  addBook,
+  getBookDetails
+} from "@/services/api";
 import { useEffect, useState } from "react";
 
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
+  const navigate = useNavigate();
+
   const [bookDetails, setBookDetails] = useState(null);
+  const [authorDetails, setAuthorDetails] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     getData();
+    checkIfSaved();
   }, [workId]);
 
   const getData = async () => {
+    setIsLoading(true);
     try {
-      const response = await getDiscoverBookDetails(workId);
-      setBookDetails(response);
+      const bookResponse = await getDiscoverBookDetails(workId);
+      setBookDetails(bookResponse);
+      const authorResponse = await getAuthorDetails(
+        bookResponse.authors[0].author.key,
+      );
+      setAuthorDetails(authorResponse);
     } catch (error) {
       console.log(error);
     } finally {
@@ -22,8 +37,44 @@ function DiscoverBookDetailsPage() {
     }
   };
 
-  console.log(workId);
-  console.log(bookDetails);
+  const checkIfSaved = async () => {
+    try {
+      await getBookDetails(workId);
+      setIsSaved(true);
+    } catch (error) {
+      console.log("Status:", error.response?.status);
+      if (error.response?.status === 404) {
+        setIsSaved(false);
+      } else {
+        console.log(error);
+      }
+    }
+  };
+
+  console.log(isSaved);
+
+  const handleAddBook = async () => {
+    const book = {
+      id: workId,
+      title: bookDetails.title,
+      author: authorDetails,
+      coverId: bookDetails.covers[0],
+      description:
+        typeof bookDetails.description === "string"
+          ? bookDetails.description
+          : (bookDetails.description?.value ?? "No description available."),
+      genres: bookDetails.subjects.slice(0, 3),
+      status: "Want to read",
+    };
+
+    try {
+      console.log("initialise adding book");
+      await addBook(book);
+      navigate(`/bookshelf/${workId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (isLoading) return <p>Loading...</p>;
   if (!bookDetails) return <p>Book not found</p>;
@@ -43,9 +94,13 @@ function DiscoverBookDetailsPage() {
           <h1 className="text-3xl font-semibold text-midnight md:text-4xl leading-tight">
             {bookDetails.title}
           </h1>
-          <p className="text-lg font-normal text-gray-600 mt-2">by Author</p>
-    
+          <p className="text-lg font-normal text-gray-600 mt-2">
+            by {authorDetails}
+          </p>
         </div>
+        <button type="button" onClick={handleAddBook} disabled={isSaved}>
+          {isSaved===false ? "Save to Bookshelf":"Already saved"}
+        </button>
       </section>
       <hr />
       <section>
@@ -53,7 +108,9 @@ function DiscoverBookDetailsPage() {
           About This Book
         </h2>
         <p className="text-gray-700 leading-relaxed text-base">
-          {bookDetails.description}
+          {typeof bookDetails.description === "string"
+            ? bookDetails.description
+            : (bookDetails.description?.value ?? "No description available.")}
         </p>
       </section>
     </div>

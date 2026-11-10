@@ -56,11 +56,11 @@ function BookDetailsPage() {
   };
 
   if (isLoading) return <h3>Loading...</h3>;
-
+ 
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       {" "}
-      <section className="flex flex-col items-center  py-8 gap-8 md:flex-row md:items-start">
+      <section className="flex flex-col items-center  pt-8 pb-2 gap-8 md:flex-row md:items-center">
         <div className="book-3d book-3d-large">
           <img
             src={`https://covers.openlibrary.org/b/id/${bookDetails.coverId}-L.jpg`}
@@ -75,15 +75,27 @@ function BookDetailsPage() {
           <p className="text-lg font-normal text-gray-600 mt-2">
             by {bookDetails.author}
           </p>
-          <p className="mt-2">
-            Status:
-            <span
-              className={`inline-block rounded-full px-3 py-1 text-sm font-medium ${statusColors[bookDetails.status]}`}
-            >
-              {bookDetails.status}
-            </span>
-          </p>
-          <p>My rating: {reviewData?.rating || "Not rated yet"}</p>
+          <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+            {bookDetails.genres.map((genre) => (
+              <span
+                key={genre}
+                className="inline-block rounded-full px-3 py-1 text-xs font-medium bg-[#EDE5F5] text-[#70538C]"
+              >
+                {genre}
+              </span>
+            ))}
+          </div>
+          <div className="space-y-2">
+            <p className="mt-2">
+              Status:
+              <span
+                className={`inline-block rounded-full px-3 py-1 text-sm font-medium ml-2 ${statusColors[bookDetails.status]}`}
+              >
+                {bookDetails.status}
+              </span>
+            </p>
+            <p>My rating: {reviewData?.rating || "Not rated yet"}</p>
+          </div>
         </div>
       </section>
       <hr />

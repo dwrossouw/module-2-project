@@ -3,8 +3,9 @@ import {
   getAuthorDetails,
   getDiscoverBookDetails,
   addBook,
-  getBookDetails
+  getBookDetails,
 } from "@/services/api";
+import { extractGenres } from "@/utils/extractGenres";
 import { useEffect, useState } from "react";
 
 function DiscoverBookDetailsPage() {
@@ -37,6 +38,8 @@ function DiscoverBookDetailsPage() {
     }
   };
 
+  const genres = extractGenres(bookDetails?.subjects?? []);
+
   const checkIfSaved = async () => {
     try {
       await getBookDetails(workId);
@@ -50,7 +53,6 @@ function DiscoverBookDetailsPage() {
     }
   };
 
-
   const handleAddBook = async () => {
     const book = {
       id: workId,
@@ -61,7 +63,7 @@ function DiscoverBookDetailsPage() {
         typeof bookDetails.description === "string"
           ? bookDetails.description
           : (bookDetails.description?.value ?? "No description available."),
-      genres: bookDetails.subjects.slice(0, 3),
+      genres: genres,
       status: "Want to read",
     };
 
@@ -76,7 +78,9 @@ function DiscoverBookDetailsPage() {
   if (isLoading) return <p>Loading...</p>;
   if (!bookDetails) return <p>Book not found</p>;
 
-  console.log("Book details: ", bookDetails);
+  console.log("Book details: ", bookDetails.subjects);
+  console.log(genres);
+
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       <section className="flex flex-col items-center  pt-8 pb-2 gap-6 md:flex-row md:items-center">
@@ -95,11 +99,25 @@ function DiscoverBookDetailsPage() {
           <p className="text-lg font-normal text-gray-600 mt-2">
             by {authorDetails}
           </p>
-          <button type="button" onClick={handleAddBook} disabled={isSaved} className="rounded-lg mt-6 px-5 py-2.5 bg-enchanted-teal hover:bg-[#1D6667] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium disabled:hover:bg-enchanted-teal">
-          {isSaved===false ? "Save to Bookshelf":"Already saved"}
-        </button>
+          <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+            {genres.map((genre) => (
+              <span
+                key={genre}
+                className="inline-block rounded-full px-3 py-1 text-xs font-medium bg-[#EDE5F5] text-[#70538C]"
+              >
+                {genre}
+              </span>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={handleAddBook}
+            disabled={isSaved}
+            className="rounded-lg mt-6 px-5 py-2.5 bg-enchanted-teal hover:bg-[#1D6667] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium disabled:hover:bg-enchanted-teal"
+          >
+            {isSaved === false ? "Save to Bookshelf" : "Already saved"}
+          </button>
         </div>
-        
       </section>
       <hr />
       <section>
@@ -111,14 +129,15 @@ function DiscoverBookDetailsPage() {
             ? bookDetails.description
             : (bookDetails.description?.value ?? "No description available.")}
         </p>
-        
       </section>
-      <section className="flex justify-start pb-5"><button
+      <section className="flex justify-start pb-5">
+        <button
           onClick={() => navigate("/discover")}
           className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
         >
           Back
-        </button></section>
+        </button>
+      </section>
     </div>
   );
 }

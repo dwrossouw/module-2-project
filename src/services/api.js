@@ -21,6 +21,13 @@ export const getAuthorDetails = async (authorKey) => {
   return response.data.name;
 }
 
+export const getBooksByGenre = async (genre) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_OPEN_LIBRARY_URL}/subjects/${genre}.json?limit=50`,
+  );
+  return response.data.works;
+}
+
 // JSON Server functions
 export const getSavedBooks = async () => {
   const response = await axios.get(

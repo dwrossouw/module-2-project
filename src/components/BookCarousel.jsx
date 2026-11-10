@@ -8,6 +8,8 @@ import {
 import { Link } from "react-router-dom";
 
 function BookCarousel({ books }) {
+  
+
   return (
     <div>
       <Carousel
@@ -16,6 +18,8 @@ function BookCarousel({ books }) {
       >
         <CarouselContent className="-ml-1">
           {books.map((book) => {
+            const coverId = book.cover_i ?? book.cover_id;
+            const author = book.author_name?.[0] ?? book.authors?.[0]?.name ?? "Unknown Author";
             return (
               <CarouselItem
                 key={book.key}
@@ -24,12 +28,14 @@ function BookCarousel({ books }) {
                 <Link to={`/discover/${book.key.split("/")[2]}`}>
                   <div className="book-3d">
                     <img
-                      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                      src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`}
                       alt={book.title}
                       className="w-full  aspect-[7/10] object-cover rounded-lg mx-auto"
                     />
                   </div>
                 </Link>
+                <p className="text-sm font-medium text-midnight text-center line-clamp-2 mt-2">{book.title}</p>
+                <p className="text-xs text-gray-500 text-center truncate">{author}</p>
               </CarouselItem>
             );
           })}

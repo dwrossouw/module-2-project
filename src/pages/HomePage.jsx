@@ -51,7 +51,6 @@ function HomePage() {
             type="submit"
             className="bg-enchanted-teal text-ivory px-6 py-2 rounded-lg hover:bg-midnight cursor-pointer"
           >
-            {" "}
             <Search size={20} />
           </button>
         </form>

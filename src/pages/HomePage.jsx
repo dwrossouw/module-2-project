@@ -33,13 +33,14 @@ function HomePage() {
   return (
     <main className="homeContainer">
       {/* Hero Section */}
-      <section className="flex flex-col items-center gap-4 py-8 px-4">
-        <h1 className="text-3xl font-bold text-midnight text-center">
-          Your next great read awaits.
+      <section className="flex flex-col items-center gap-4 pt-2 pb-8 px-4">
+        <img src="/src/assets/logo.png" alt="Vault of Tomes logo" className="w-70 max-w-full md:w-90 lg:w-110 h-auto p-0 m-0"/>
+        <h1 className="text-2xl font-bold text-midnight text-center">
+          Every book holds a world. Find yours.
         </h1>
         <p className="text-center text-enchanted-teal max-w-xl">
           Discover stories, explore new worlds, and build your personal
-          bookshelf.
+          vault.
         </p>
         <SearchBar />
         <Link

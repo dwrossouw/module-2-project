@@ -1,12 +1,28 @@
 import { Search } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
+const [searchQuery, setSearchQuery] = useState ("");
+const navigate = useNavigate();
+
+const handleSearch = (e) => {
+  e.preventDefault();
+  if (!searchQuery.trim()){
+    return;
+  }
+ navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+
+}
+
   return (
-    <form className="flex max-w-xl w-full gap-2">
+    <form onSubmit={handleSearch} className="flex max-w-xl w-full gap-2">
           <input
             type="search"
             name="search"
+            value={searchQuery}
             placeholder="Search books or authors..."
+            onChange = {(e)=>setSearchQuery(e.target.value)}
             className="flex-1 min-w-0 bg-white rounded-lg border border-gray-300 px-4 py-2"
           />
           <button

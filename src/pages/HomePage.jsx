@@ -4,6 +4,7 @@ import { getTrendingBooks } from "../services/api";
 import SearchBar from "@/components/SearchBar";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "../hooks/useFetchBooks";
+import logo from "@/assets/logo.png";
 
 function HomePage() {
   const {
@@ -19,7 +20,7 @@ function HomePage() {
       {/* Hero Section */}
       <section className="flex flex-col items-center gap-4 pt-2 pb-8 px-4">
         <img
-          src="/src/assets/logo.png"
+          src={logo}
           alt="Vault of Tomes logo"
           className="w-70 max-w-full md:w-90 lg:w-110 h-auto p-0 m-0"
         />

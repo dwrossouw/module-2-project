@@ -24,8 +24,12 @@ export const getAuthorDetails = async (authorKey) => {
 };
 
 export const getBookWithAuthor = async (workId) => {
-  
-}
+  const book = await getDiscoverBookDetails(workId);
+
+  const author = await getAuthorDetails(book.authors[0].author.key);
+
+  return {book, author};
+};
 
 export const getBooksByGenre = async (genre) => {
   const response = await axios.get(

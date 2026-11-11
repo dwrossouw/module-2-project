@@ -1,44 +1,28 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {
-  getAuthorDetails,
-  getDiscoverBookDetails,
   addBook,
   getBookDetails,
+  getBookWithAuthor
 } from "@/services/api";
 import { extractGenres } from "@/utils/extractGenres";
 import { useEffect, useState } from "react";
 import BookLoader from "@/components/BookLoader";
+import useFetchBooks from "@/hooks/useFetchBooks";
 
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [bookDetails, setBookDetails] = useState(null);
-  const [authorDetails, setAuthorDetails] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
 
+  const {data, isLoading, error} = useFetchBooks (getBookWithAuthor, workId);
+  const bookDetails = data?.book;
+  const authorDetails = data?.author;
+
   useEffect(() => {
-    getData();
     checkIfSaved();
   }, [workId]);
-
-  const getData = async () => {
-    setIsLoading(true);
-    try {
-      const bookResponse = await getDiscoverBookDetails(workId);
-      setBookDetails(bookResponse);
-      const authorResponse = await getAuthorDetails(
-        bookResponse.authors[0].author.key,
-      );
-      setAuthorDetails(authorResponse);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const genres = extractGenres(bookDetails?.subjects?? []);
 

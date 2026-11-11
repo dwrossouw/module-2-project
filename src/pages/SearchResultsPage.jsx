@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link, useLocation } from "react-router-dom";
 import { searchBooksQuery } from "@/services/api";
-import { Link } from "react-router-dom";
 import BookLoader from "@/components/BookLoader";
 import SearchBar from "@/components/SearchBar";
 
@@ -11,6 +10,8 @@ function SearchResultsPage() {
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
+  const location = useLocation();
+  console.log("Search page location: ", location);
 
   useEffect(() => {
     getData();
@@ -48,7 +49,10 @@ function SearchResultsPage() {
           searchResults.map((book) => {
             return (
               <div key={book.key}>
-                <Link to={`/discover/${book.key.split("/")[2]}`}>
+                <Link
+                  to={`/discover/${book.key.split("/")[2]}`}
+                  state={{ from: location.pathname + location.search }}
+                >
                   <div className="book-3d">
                     <img
                       src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}

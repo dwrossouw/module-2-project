@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   getBookDetails,
   getReviewDetails,
@@ -12,6 +11,10 @@ import BookLoader from "@/components/BookLoader";
 function BookDetailsPage() {
   const { bookId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log("Book details location: ",location);
+
   const [bookDetails, setBookDetails] = useState({});
   const [reviewData, setReviewData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -123,7 +126,7 @@ function BookDetailsPage() {
       </section>
       <section className="flex justify-between items-center pb-5">
         <button
-          onClick={() => navigate("/bookshelf")}
+          onClick={() => navigate(location.state?.from ?? "/bookshelf")}
           className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
         >
           Back

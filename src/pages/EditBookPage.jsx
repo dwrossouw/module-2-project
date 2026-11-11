@@ -73,7 +73,7 @@ function EditBookPage() {
       } else if (formData.rating !== 0 || formData.comment !== "") {
         await addReview(bookId, formData.rating, formData.comment);
       }
-      navigate(`/bookshelf/${bookId}`);
+      navigate(`/bookshelf`, {replace: true});
     } catch (error) {
       console.log(error);
     }

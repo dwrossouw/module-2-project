@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   getAuthorDetails,
   getDiscoverBookDetails,
@@ -12,6 +12,7 @@ import BookLoader from "@/components/BookLoader";
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [bookDetails, setBookDetails] = useState(null);
   const [authorDetails, setAuthorDetails] = useState("");
@@ -70,7 +71,7 @@ function DiscoverBookDetailsPage() {
 
     try {
       await addBook(book);
-      navigate(`/bookshelf/${workId}`);
+      navigate(`/bookshelf/${workId}`, {state: {from: location.state?.from ?? "/discover"}});
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +88,7 @@ function DiscoverBookDetailsPage() {
 
   console.log("Book details: ", bookDetails.subjects);
   console.log(genres);
+  console.log("location: ",location.state);
 
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
@@ -139,7 +141,7 @@ function DiscoverBookDetailsPage() {
       </section>
       <section className="flex justify-start pb-5">
         <button
-          onClick={() => navigate("/discover")}
+          onClick={() => navigate(location.state?.from ?? "/discover" )}
           className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
         >
           Back

@@ -1,50 +1,30 @@
-import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
-  getBookDetails,
   getReviewDetails,
   deleteBook,
   deleteReview,
+  getBookWithReview,
 } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
+import useFetchBooks from "@/hooks/useFetchBooks";
 
 function BookDetailsPage() {
   const { bookId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log("Book details location: ",location);
+  const { data, isLoading, error } = useFetchBooks(getBookWithReview, bookId);
 
-  const [bookDetails, setBookDetails] = useState({});
-  const [reviewData, setReviewData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const bookDetails = data?.book;
+  const reviewData = data?.review;
 
-  useEffect(() => {
-    getData();
-  }, [bookId]);
+  console.log("Review data: ",reviewData);
 
-  const getData = async () => {
-    setIsLoading(true);
+  const handleRemoveBook = async () => {
     try {
-      const responseBook = await getBookDetails(bookId);
-      const responseReview = await getReviewDetails(bookId);
-
-      setBookDetails(responseBook);
-      setReviewData(responseReview ?? null);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleRemoveBook = async (e) => {
-    try {
-      const reviewResponse = await getReviewDetails(bookId);
-      if (reviewResponse) {
-        await deleteReview(reviewResponse.id);
+      if (reviewData) {
+        await deleteReview(reviewData.id);
       }
-
       await deleteBook(bookId);
       navigate("/bookshelf");
     } catch (error) {
@@ -66,7 +46,7 @@ function BookDetailsPage() {
       </div>
     );
   }
- 
+
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       {" "}

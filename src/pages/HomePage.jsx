@@ -54,7 +54,7 @@ function HomePage() {
 
         <div>
           {isLoading ? (
-            <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="flex justify-center items-center min-h-48">
               <BookLoader />
             </div>
           ) : (

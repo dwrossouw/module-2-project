@@ -5,34 +5,26 @@ import GenreCard from "@/components/GenreCard";
 import SearchBar from "@/components/SearchBar";
 import BookLoader from "@/components/BookLoader";
 import { genres } from "@/data/genres";
+import useFetchBooks from "@/hooks/useFetchBooks";
 
 function DiscoverPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState("fantasy");
-  const [genreBooks, setGenreBooks] = useState([]);
-  const [trendingBooks, setTrendingBooks] = useState([]);
-  const [classicBooks, setClassicBooks] = useState([]);
 
-  useEffect(() => {
-    getData();
-  }, [selectedGenre]);
-
-  const getData = async () => {
-    setIsLoading(true);
-    try {
-      const bookResponse = await getBooksByGenre(selectedGenre);
-      setGenreBooks(bookResponse);
-      const trendingResponse = await getTrendingBooks ("weekly");
-      setTrendingBooks (trendingResponse);
-      const classicResponse = await getBooksByGenre("classics");
-      setClassicBooks (classicResponse);
-
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    data: genreBooks,
+    isLoading: isGenreLoading,
+    error: genreError,
+  } = useFetchBooks(getBooksByGenre, selectedGenre);
+  const {
+    data: trendingBooks,
+    isLoading: isTrendingLoading,
+    error: trendingError,
+  } = useFetchBooks(getTrendingBooks, "weekly");
+  const {
+    data: classicBooks,
+    isLoading: isClassicLoading,
+    error: classicError,
+  } = useFetchBooks(getBooksByGenre, "classics");
 
   console.log("Genre books state: ", genreBooks);
   console.log("Current selected genre: ", selectedGenre);
@@ -56,7 +48,8 @@ function DiscoverPage() {
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {genres.map((genre) => {
             return (
-              <GenreCard key={genre.value}
+              <GenreCard
+                key={genre.value}
                 name={genre.name}
                 Icon={genre.Icon}
                 onClick={() => setSelectedGenre(genre.value)}
@@ -64,13 +57,12 @@ function DiscoverPage() {
               />
             );
           })}
-       
         </div>
       </section>
       <hr />
       <section>
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[60vh]">
+        {isGenreLoading ? (
+          <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
         ) : (
@@ -82,8 +74,8 @@ function DiscoverPage() {
         <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
           Trending weekly
         </h2>
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[60vh]">
+        {isTrendingLoading ? (
+          <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
         ) : (
@@ -95,8 +87,8 @@ function DiscoverPage() {
         <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
           Timeless Classics
         </h2>
-        {isLoading ? (
-          <div className="flex justify-center items-center min-h-[60vh]">
+        {isClassicLoading ? (
+          <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
         ) : (

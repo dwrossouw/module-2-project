@@ -7,6 +7,7 @@ import {
   updateReview,
   updateStatus,
 } from "@/services/api";
+import BookLoader from "@/components/BookLoader";
 
 function EditBookPage() {
   const { bookId } = useParams();
@@ -46,7 +47,13 @@ function EditBookPage() {
     }
   };
 
-  if (isLoading) return <h3>Loading...</h3>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <BookLoader />
+      </div>
+    );
+  }
 
   const handleFormData = (name, input) => {
     console.log("Form value:", input);

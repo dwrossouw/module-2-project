@@ -7,6 +7,7 @@ import {
 } from "@/services/api";
 import { extractGenres } from "@/utils/extractGenres";
 import { useEffect, useState } from "react";
+import BookLoader from "@/components/BookLoader";
 
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
@@ -75,7 +76,13 @@ function DiscoverBookDetailsPage() {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <BookLoader />
+      </div>
+    );
+  }
   if (!bookDetails) return <p>Book not found</p>;
 
   console.log("Book details: ", bookDetails.subjects);

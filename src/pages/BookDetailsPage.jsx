@@ -7,6 +7,7 @@ import {
   deleteBook,
   deleteReview,
 } from "@/services/api";
+import BookLoader from "@/components/BookLoader";
 
 function BookDetailsPage() {
   const { bookId } = useParams();
@@ -55,7 +56,13 @@ function BookDetailsPage() {
     "Did not finish": "bg-[#F8DDD5] text-[#A34E3C]",
   };
 
-  if (isLoading) return <h3>Loading...</h3>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <BookLoader />
+      </div>
+    );
+  }
  
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">

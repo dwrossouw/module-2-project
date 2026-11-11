@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import GenreCard from "@/components/GenreCard";
 import SearchBar from "@/components/SearchBar";
+import BookLoader from "@/components/BookLoader";
 
 function DiscoverPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +36,8 @@ function DiscoverPage() {
 
   console.log("Genre books state: ", genreBooks);
   console.log("Current selected genre: ", selectedGenre);
+
+
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-4 space-y-2">
@@ -92,7 +95,9 @@ function DiscoverPage() {
       <hr />
       <section>
         {isLoading ? (
-          <p>Loading books...</p>
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <BookLoader />
+          </div>
         ) : (
           <BookCarousel books={genreBooks} />
         )}

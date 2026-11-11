@@ -4,6 +4,7 @@ import BookCarousel from "../components/BookCarousel";
 import { getTrendingBooks } from "../services/api";
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/SearchBar";
+import BookLoader from "@/components/BookLoader";
 
 function HomePage() {
   const [trendingBooks, setTrendingBooks] = useState([]);
@@ -27,7 +28,11 @@ function HomePage() {
   console.log("Trending books: ", trendingBooks);
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <BookLoader />
+      </div>
+    );
   }
 
   return (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getSavedBooks } from "@/services/api";
+import BookLoader from "@/components/BookLoader";
 
 function BookshelfPage() {
   const [shelfBooks, setShelfBooks] = useState([]);
@@ -22,8 +23,12 @@ function BookshelfPage() {
     }
   };
 
-  if (isLoading) {
-    return <h3>Loading...</h3>;
+if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <BookLoader />
+      </div>
+    );
   }
 
   console.log(shelfBooks);

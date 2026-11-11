@@ -64,8 +64,10 @@ function HomePage() {
       </section>
 
       {/* Book Quiz */}
-      <section>
-        <h2>Book quiz</h2>
+      <section className="ml-5">
+         <h2 className="text-2xl text-midnight font-semibold">
+            Book quiz
+          </h2>
         <p></p>
         <span>Coming soon...</span>
       </section>

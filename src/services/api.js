@@ -28,6 +28,13 @@ export const getBooksByGenre = async (genre) => {
   return response.data.works;
 }
 
+export const searchBooksQuery = async (query) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_OPEN_LIBRARY_URL}/search.json?q=${encodeURIComponent(query)}`,
+  );
+  return response.data.docs;
+}
+
 // JSON Server functions
 export const getSavedBooks = async () => {
   const response = await axios.get(

@@ -39,12 +39,18 @@ function BookDetailsPage() {
     "Did not finish": "bg-[#F8DDD5] text-[#A34E3C]",
   };
 
-  if (isLoading) {
+  if (isLoading ) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
         <BookLoader />
       </div>
     );
+  }
+
+  if (error || !bookDetails){
+    return (
+      <h2>An error has occurred. The data could not be loaded. Please try again later.</h2>
+    )
   }
 
   return (

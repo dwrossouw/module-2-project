@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { getBooksByGenre, getTrendingBooks } from "@/services/api";
 import BookCarousel from "@/components/BookCarousel";
 import GenreCard from "@/components/GenreCard";
@@ -6,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import BookLoader from "@/components/BookLoader";
 import { genres } from "@/data/genres";
 import useFetchBooks from "@/hooks/useFetchBooks";
+import { useState } from "react";
 
 function DiscoverPage() {
   const [selectedGenre, setSelectedGenre] = useState("fantasy");
@@ -65,9 +65,9 @@ function DiscoverPage() {
           <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
-        ) : (
-          <BookCarousel books={genreBooks} />
-        )}
+        ) : (genreError || !genreBooks) 
+        ? <h2>An error has occurred. The data could not be loaded. Please try again later</h2>
+        :(<BookCarousel books={genreBooks} />)}
       </section>
       <hr />
       <section>

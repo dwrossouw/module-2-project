@@ -108,7 +108,7 @@ function DiscoverBookDetailsPage() {
             disabled={isSaved}
             className="rounded-lg mt-6 px-5 py-2.5 bg-enchanted-teal hover:bg-[#1D6667] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium disabled:hover:bg-enchanted-teal"
           >
-            {isSaved === false ? "Save to Bookshelf" : "Already saved"}
+            {isSaved === false ? "Save to Vault" : "Already saved"}
           </button>
         </div>
       </section>

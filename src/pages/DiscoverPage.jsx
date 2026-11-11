@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
-import { getBooksByGenre } from "@/services/api";
+import { getBooksByGenre, getTrendingBooks } from "@/services/api";
 import BookCarousel from "@/components/BookCarousel";
-import {
-  WandSparkles,
-  Rocket,
-  Heart,
-  HatGlasses,
-  Ghost,
-  Landmark,
-} from "lucide-react";
 import GenreCard from "@/components/GenreCard";
 import SearchBar from "@/components/SearchBar";
 import BookLoader from "@/components/BookLoader";
+import { genres } from "@/data/genres";
 
 function DiscoverPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState("fantasy");
   const [genreBooks, setGenreBooks] = useState([]);
+  const [trendingBooks, setTrendingBooks] = useState([]);
+  const [classicBooks, setClassicBooks] = useState([]);
 
   useEffect(() => {
     getData();
@@ -27,6 +22,11 @@ function DiscoverPage() {
     try {
       const bookResponse = await getBooksByGenre(selectedGenre);
       setGenreBooks(bookResponse);
+      const trendingResponse = await getTrendingBooks ("weekly");
+      setTrendingBooks (trendingResponse);
+      const classicResponse = await getBooksByGenre("classics");
+      setClassicBooks (classicResponse);
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -36,8 +36,8 @@ function DiscoverPage() {
 
   console.log("Genre books state: ", genreBooks);
   console.log("Current selected genre: ", selectedGenre);
-
-
+  console.log("Trending weekly: ", trendingBooks);
+  console.log("Classics: ", classicBooks);
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-4 space-y-2">
@@ -54,42 +54,17 @@ function DiscoverPage() {
           Explore by genre
         </h2>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-          <GenreCard
-            name="Fantasy"
-            Icon={WandSparkles}
-            onClick={() => setSelectedGenre("fantasy")}
-            isSelected={selectedGenre === "fantasy"}
-          />
-          <GenreCard
-            name="Sci-Fi"
-            Icon={Rocket}
-            onClick={() => setSelectedGenre("science_fiction")}
-            isSelected={selectedGenre === "science_fiction"}
-          />
-          <GenreCard
-            name="Romance"
-            Icon={WandSparkles}
-            onClick={() => setSelectedGenre("romance")}
-            isSelected={selectedGenre === "romance"}
-          />
-          <GenreCard
-            name="Mystery"
-            Icon={Heart}
-            onClick={() => setSelectedGenre("mystery")}
-            isSelected={selectedGenre === "mystery"}
-          />
-          <GenreCard
-            name="Horror"
-            Icon={Ghost}
-            onClick={() => setSelectedGenre("horror")}
-            isSelected={selectedGenre === "horror"}
-          />
-          <GenreCard
-            name="Historical"
-            Icon={Landmark}
-            onClick={() => setSelectedGenre("history")}
-            isSelected={selectedGenre === "history"}
-          />
+          {genres.map((genre) => {
+            return (
+              <GenreCard key={genre.value}
+                name={genre.name}
+                Icon={genre.Icon}
+                onClick={() => setSelectedGenre(genre.value)}
+                isSelected={selectedGenre === genre.value}
+              />
+            );
+          })}
+       
         </div>
       </section>
       <hr />
@@ -100,6 +75,32 @@ function DiscoverPage() {
           </div>
         ) : (
           <BookCarousel books={genreBooks} />
+        )}
+      </section>
+      <hr />
+      <section>
+        <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
+          Trending weekly
+        </h2>
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <BookLoader />
+          </div>
+        ) : (
+          <BookCarousel books={trendingBooks} />
+        )}
+      </section>
+      <hr />
+      <section>
+        <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
+          Timeless Classics
+        </h2>
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[60vh]">
+            <BookLoader />
+          </div>
+        ) : (
+          <BookCarousel books={classicBooks} />
         )}
       </section>
     </main>

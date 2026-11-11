@@ -1,9 +1,9 @@
 import axios from "axios";
 
 //OpenLibrary API functions
-export const getTrendingBooks = async () => {
+export const getTrendingBooks = async (period = "daily") => {
   const response = await axios.get(
-    `${import.meta.env.VITE_OPEN_LIBRARY_URL}/trending/daily.json?limit=20`,
+    `${import.meta.env.VITE_OPEN_LIBRARY_URL}/trending/${period}.json?limit=50`,
   );
 
   return response.data.works;
@@ -17,23 +17,25 @@ export const getDiscoverBookDetails = async (workId) => {
 };
 
 export const getAuthorDetails = async (authorKey) => {
-  const response = await axios.get (`${import.meta.env.VITE_OPEN_LIBRARY_URL}${authorKey}.json`)
+  const response = await axios.get(
+    `${import.meta.env.VITE_OPEN_LIBRARY_URL}${authorKey}.json`,
+  );
   return response.data.name;
-}
+};
 
 export const getBooksByGenre = async (genre) => {
   const response = await axios.get(
     `${import.meta.env.VITE_OPEN_LIBRARY_URL}/subjects/${genre}.json?limit=50`,
   );
   return response.data.works;
-}
+};
 
 export const searchBooksQuery = async (query) => {
   const response = await axios.get(
     `${import.meta.env.VITE_OPEN_LIBRARY_URL}/search.json?q=${encodeURIComponent(query)}`,
   );
   return response.data.docs;
-}
+};
 
 // JSON Server functions
 export const getSavedBooks = async () => {
@@ -86,9 +88,11 @@ export const deleteBook = async (bookId) => {
 };
 
 export const addBook = async (book) => {
-  await axios.post (`${import.meta.env.VITE_JSON_SERVER_URL}/books`, book);
-}
+  await axios.post(`${import.meta.env.VITE_JSON_SERVER_URL}/books`, book);
+};
 
-export const deleteReview = async (reviewId) =>{
-  await axios.delete(`${import.meta.env.VITE_JSON_SERVER_URL}/reviews/${reviewId}`);
-}
+export const deleteReview = async (reviewId) => {
+  await axios.delete(
+    `${import.meta.env.VITE_JSON_SERVER_URL}/reviews/${reviewId}`,
+  );
+};

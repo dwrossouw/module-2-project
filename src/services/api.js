@@ -70,6 +70,13 @@ export const getReviewDetails = async (bookId) => {
   return response.data[0];
 };
 
+export const getBookWithReview = async (bookId) => {
+
+  const [book, review] = await Promise.all([getBookDetails (bookId), getReviewDetails (bookId)]);
+
+  return {book, review};
+}
+
 export const updateStatus = async (bookId, status) => {
   await axios.patch(`${import.meta.env.VITE_JSON_SERVER_URL}/books/${bookId}`, {
     status: status,

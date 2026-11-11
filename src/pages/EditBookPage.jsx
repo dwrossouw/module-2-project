@@ -2,50 +2,38 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addReview,
-  getBookDetails,
-  getReviewDetails,
   updateReview,
   updateStatus,
+  getBookWithReview,
 } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
+import useFetchBooks from "@/hooks/useFetchBooks";
 
 function EditBookPage() {
   const { bookId } = useParams();
   const navigate = useNavigate();
 
-  const [bookDetails, setBookDetails] = useState({});
-  const [reviewData, setReviewData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     status: "",
     rating: 0,
     comment: "",
   });
 
+  const { data, isLoading, error } = useFetchBooks(getBookWithReview, bookId);
+  const bookDetails = data?.book;
+  const reviewData = data?.review;
+
   useEffect(() => {
-    getData();
-  }, [bookId]);
-
-  const getData = async () => {
-    setIsLoading(true);
-    try {
-      const responseBook = await getBookDetails(bookId);
-      const responseReview = await getReviewDetails(bookId);
-      setBookDetails(responseBook);
-      setReviewData(responseReview ?? null);
-
+    if (bookDetails) {
       const formDataObj = {
-        status: responseBook.status,
-        rating: responseReview?.rating ?? 0,
-        comment: responseReview?.comment ?? "",
+        status: bookDetails.status,
+        rating: reviewData?.rating ?? 0,
+        comment: reviewData?.comment ?? "",
       };
       setFormData(formDataObj);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }, [data]);
+
 
   if (isLoading) {
     return (
@@ -73,7 +61,7 @@ function EditBookPage() {
       } else if (formData.rating !== 0 || formData.comment !== "") {
         await addReview(bookId, formData.rating, formData.comment);
       }
-      navigate(`/bookshelf`, {replace: true});
+      navigate(`/bookshelf`, { replace: true });
     } catch (error) {
       console.log(error);
     }

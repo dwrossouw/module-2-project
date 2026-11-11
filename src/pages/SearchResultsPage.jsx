@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { searchBooksQuery } from "@/services/api";
 import { Link } from "react-router-dom";
 import BookLoader from "@/components/BookLoader";
+import SearchBar from "@/components/SearchBar";
 
 function SearchResultsPage() {
   const [searchResults, setSearchResults] = useState([]);
@@ -29,41 +30,43 @@ function SearchResultsPage() {
   console.log(query);
   console.log("Search results: ", searchResults);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <BookLoader />
-      </div>
-    );
-  }
-
   return (
     <div>
+      <section>
+        <SearchBar />
+      </section>
+
       <h1 className="text-xl font-medium text-midnight text-center">
         Search Results for `{query}`
       </h1>
       <section className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-2 gap-y-4">
-        {searchResults.map((book) => {
-          return (
-            <div key={book.key}>
-              <Link to={`/discover/${book.key.split("/")[2]}`}>
-                <div className="book-3d">
-                  <img
-                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
-                    alt={book.title}
-                    className="w-12  aspect-[7/10] object-cover rounded-lg mx-auto"
-                  />
-                </div>
-              </Link>
-              <p className="text-sm font-medium text-midnight text-center line-clamp-2 mt-2">
-                {book.title}
-              </p>
-              <p className="text-xs text-gray-500 text-center truncate">
-                {book.author_name}
-              </p>
-            </div>
-          );
-        })}
+        {isLoading ? (
+          <div className="col-span-full flex justify-center items-center min-h-[60vh]">
+            <BookLoader />
+          </div>
+        ) : (
+          searchResults.map((book) => {
+            return (
+              <div key={book.key}>
+                <Link to={`/discover/${book.key.split("/")[2]}`}>
+                  <div className="book-3d">
+                    <img
+                      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                      alt={book.title}
+                      className="w-12  aspect-[7/10] object-cover rounded-lg mx-auto"
+                    />
+                  </div>
+                </Link>
+                <p className="text-sm font-medium text-midnight text-center line-clamp-2 mt-2">
+                  {book.title}
+                </p>
+                <p className="text-xs text-gray-500 text-center truncate">
+                  {book.author_name}
+                </p>
+              </div>
+            );
+          })
+        )}
       </section>
     </div>
   );

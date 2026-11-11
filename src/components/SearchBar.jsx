@@ -1,9 +1,13 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams} from "react-router-dom";
+
 
 function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q");
+  const [searchQuery, setSearchQuery] = useState(query??"");
   const navigate = useNavigate();
 
   const handleSearch = (e) => {

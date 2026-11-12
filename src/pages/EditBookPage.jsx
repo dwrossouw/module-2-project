@@ -8,6 +8,7 @@ import {
 } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "@/hooks/useFetchBooks";
+import RatingSystem from "@/components/RatingSystem";
 
 function EditBookPage() {
   const { bookId } = useParams();
@@ -15,7 +16,7 @@ function EditBookPage() {
 
   const [formData, setFormData] = useState({
     status: "",
-    rating: 0,
+    rating: null,
     comment: "",
   });
 
@@ -27,13 +28,12 @@ function EditBookPage() {
     if (bookDetails) {
       const formDataObj = {
         status: bookDetails.status,
-        rating: reviewData?.rating ?? 0,
+        rating: reviewData?.rating ?? null,
         comment: reviewData?.comment ?? "",
       };
       setFormData(formDataObj);
     }
   }, [data]);
-
 
   if (isLoading) {
     return (
@@ -45,7 +45,7 @@ function EditBookPage() {
 
   const handleFormData = (name, input) => {
     const stateCopy = { ...formData };
-    stateCopy[name] = name === "rating" ? Number(input) : input;
+    stateCopy[name] = input;
     setFormData(stateCopy);
   };
 
@@ -57,7 +57,7 @@ function EditBookPage() {
 
       if (reviewData) {
         await updateReview(reviewData.id, formData.rating, formData.comment);
-      } else if (formData.rating !== 0 || formData.comment !== "") {
+      } else if (formData.rating !== null || formData.comment !== "") {
         await addReview(bookId, formData.rating, formData.comment);
       }
       navigate(`/bookshelf`, { replace: true });
@@ -105,15 +105,11 @@ function EditBookPage() {
           <h3 className="text-sm font-semibold text-midnight mb-2">
             My rating
           </h3>
-          <input
-            type="number"
-            name="rating"
-            min="1"
-            max="5"
-            step="0.5"
+          <RatingSystem
             value={formData.rating}
-            onChange={(e) => handleFormData(e.target.name, e.target.value)}
-            className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-enchanted-teal"
+            onChange={(_, newValue) => handleFormData("rating", newValue)}
+            readOnly={false}
+            size="medium"
           />
           <h3 className="text-sm font-semibold text-midnight mb-2">
             My review

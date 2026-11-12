@@ -88,7 +88,8 @@ function BookDetailsPage() {
                 {bookDetails.status}
               </span>
             </p>
-            <p>
+
+            <p className="flex justify-center items-align gap-2">
               My rating:{" "}
               {reviewData?.rating == null  ? (
                 "Not rated yet."

@@ -5,11 +5,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Link } from "react-router-dom";
+import BookCard from "./BookCard";
 
 function BookCarousel({ books }) {
   
-
   return (
     <div>
       <Carousel
@@ -25,17 +24,7 @@ function BookCarousel({ books }) {
                 key={book.key}
                 className="pl-1 basis-1/3 md:basis-1/4 lg:basis-1/6"
               >
-                <Link to={`/discover/${book.key.split("/")[2]}`}>
-                  <div className="book-3d">
-                    <img
-                      src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`}
-                      alt={book.title}
-                      className="w-full  aspect-[7/10] object-cover rounded-lg mx-auto"
-                    />
-                  </div>
-                </Link>
-                <p className="text-sm font-medium text-midnight text-center line-clamp-2 mt-2">{book.title}</p>
-                <p className="text-xs text-gray-500 text-center truncate">{author}</p>
+                <BookCard coverId={coverId} title={book.title} author={author} to={`/discover/${book.key.split("/")[2]}`}/>
               </CarouselItem>
             );
           })}

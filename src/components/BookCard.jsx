@@ -6,7 +6,7 @@ function BookCard({ coverId, title, author, to }) {
       <div className="book-3d aspect-[7/10]">
         <Link to={to}>
           <img
-            src={`https://covers.openlibrary.org/b/id/${coverId}-L.jpg`}
+            src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`}
             alt="Cover image"
             className="w-full h-full object-cover min-w-0"
           />

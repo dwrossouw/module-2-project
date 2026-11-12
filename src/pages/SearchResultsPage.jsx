@@ -3,6 +3,7 @@ import { useSearchParams, Link, useLocation } from "react-router-dom";
 import { searchBooksQuery } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
 import SearchBar from "@/components/SearchBar";
+import BookCard from "@/components/BookCard";
 
 function SearchResultsPage() {
   const [searchResults, setSearchResults] = useState([]);
@@ -47,27 +48,19 @@ function SearchResultsPage() {
           </div>
         ) : (
           searchResults.map((book) => {
+            const author =
+              book.author_name?.[0] ??
+              book.authors?.[0]?.name ??
+              "Unknown Author";
             return (
-              <div key={book.key}>
-                <Link
-                  to={`/discover/${book.key.split("/")[2]}`}
-                  state={{ from: location.pathname + location.search }}
-                >
-                  <div className="book-3d">
-                    <img
-                      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
-                      alt={book.title}
-                      className="w-12  aspect-[7/10] object-cover rounded-lg mx-auto"
-                    />
-                  </div>
-                </Link>
-                <p className="text-sm font-medium text-midnight text-center line-clamp-2 mt-2">
-                  {book.title}
-                </p>
-                <p className="text-xs text-gray-500 text-center truncate">
-                  {book.author_name}
-                </p>
-              </div>
+              <BookCard
+                key={book.key}
+                coverId={book.cover_i}
+                title={book.title}
+                author={author}
+                to={`/discover/${book.key.split("/")[2]}`}
+                state={{ from: location.pathname + location.search }}
+              />
             );
           })
         )}

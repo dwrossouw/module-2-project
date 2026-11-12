@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-function BookCard({ coverId, title, author, to }) {
+function BookCard({ coverId, title, author, to, state }) {
   return (
     <div>
       <div className="book-3d aspect-[7/10]">
-        <Link to={to}>
+        <Link to={to} state={state}>
           <img
             src={`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`}
             alt="Cover image"

@@ -7,7 +7,11 @@ function Footer() {
       <p>©2026 The Vault of Tomes</p>
       <div className="flex items-center gap-6">
         <Link to="/about">About</Link>
-        <a href="https://github.com/dwrossouw/module-2-project">
+        <a
+          href="https://github.com/dwrossouw/module-2-project"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FaGithub size={24} />
         </a>
       </div>

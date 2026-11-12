@@ -144,7 +144,7 @@ This project was an opportunity to practise:
 ### Book Details Page
 ![Book Details Page](./screenshots/bookdetailspage.png)
 ### Edit Book Page
-![Edit Book Page](./screenshots/bookdetailspage.png)
+![Edit Book Page](./screenshots/editbookpage.png)
 
 ## Live Demo and Repository
 

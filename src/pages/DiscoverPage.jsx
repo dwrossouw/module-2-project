@@ -26,11 +26,6 @@ function DiscoverPage() {
     error: classicError,
   } = useFetchBooks(getBooksByGenre, "classics");
 
-  console.log("Genre books state: ", genreBooks);
-  console.log("Current selected genre: ", selectedGenre);
-  console.log("Trending weekly: ", trendingBooks);
-  console.log("Classics: ", classicBooks);
-
   return (
     <main className="max-w-6xl mx-auto px-4 py-4 space-y-2">
       <h1 className="text-2xl text-center font-semibold text-midnight">
@@ -42,7 +37,7 @@ function DiscoverPage() {
         <SearchBar />
       </section>
       <section>
-        <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
+        <h2 className="text-xl text-center font-semibold text-midnight mb-4">
           Explore by genre
         </h2>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
@@ -76,7 +71,7 @@ function DiscoverPage() {
       </section>
       <hr />
       <section>
-        <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
+        <h2 className="text-xl text-center font-semibold text-midnight mb-4">
           Trending weekly
         </h2>
         {isTrendingLoading ? (
@@ -94,7 +89,7 @@ function DiscoverPage() {
       </section>
       <hr />
       <section>
-        <h2 className="text-xl text-center font semi-bold text-midnight mb-4">
+        <h2 className="text-xl text-center font-semibold text-midnight mb-4">
           Timeless Classics
         </h2>
         {isClassicLoading ? (

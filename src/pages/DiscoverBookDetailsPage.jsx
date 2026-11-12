@@ -1,13 +1,10 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import {
-  addBook,
-  getBookDetails,
-  getBookWithAuthor
-} from "@/services/api";
+import { addBook, getBookDetails, getBookWithAuthor } from "@/services/api";
 import { extractGenres } from "@/utils/extractGenres";
 import { useEffect, useState } from "react";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "@/hooks/useFetchBooks";
+import BookCover from "@/components/BookCover";
 
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
@@ -16,7 +13,7 @@ function DiscoverBookDetailsPage() {
 
   const [isSaved, setIsSaved] = useState(false);
 
-  const {data, isLoading, error} = useFetchBooks (getBookWithAuthor, workId);
+  const { data, isLoading, error } = useFetchBooks(getBookWithAuthor, workId);
   const bookDetails = data?.book;
   const authorDetails = data?.author;
 
@@ -24,7 +21,7 @@ function DiscoverBookDetailsPage() {
     checkIfSaved();
   }, [workId]);
 
-  const genres = extractGenres(bookDetails?.subjects?? []);
+  const genres = extractGenres(bookDetails?.subjects ?? []);
 
   const checkIfSaved = async () => {
     try {
@@ -44,7 +41,7 @@ function DiscoverBookDetailsPage() {
       id: workId,
       title: bookDetails.title,
       author: authorDetails,
-      coverId: bookDetails.covers[0],
+      coverId: bookDetails.covers?.[0] ?? null,
       description:
         typeof bookDetails.description === "string"
           ? bookDetails.description
@@ -55,7 +52,9 @@ function DiscoverBookDetailsPage() {
 
     try {
       await addBook(book);
-      navigate(`/bookshelf/${workId}`, {state: {from: location.state?.from ?? "/discover"}});
+      navigate(`/bookshelf/${workId}`, {
+        state: { from: location.state?.from ?? "/discover" },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -68,16 +67,23 @@ function DiscoverBookDetailsPage() {
       </div>
     );
   }
+  if (error)
+    return (
+      <h2>
+        Something went wrong while loading this book. Please try again later.
+      </h2>
+    );
   if (!bookDetails) return <p>Book not found</p>;
 
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       <section className="flex flex-col items-center  pt-8 pb-2 gap-6 md:flex-row md:items-center">
         <div className="book-3d book-3d-large">
-          <img
-            src={`https://covers.openlibrary.org/b/id/${bookDetails.covers[0]}-L.jpg`}
-            alt="Cover Image"
-            className="w-48 object-cover"
+          <BookCover
+            coverId={bookDetails.covers?.[0]}
+            title={bookDetails.title}
+            size={"L"}
+            className={"w-48 object-cover"}
           />
         </div>
 
@@ -121,7 +127,7 @@ function DiscoverBookDetailsPage() {
       </section>
       <section className="flex justify-start pb-5">
         <button
-          onClick={() => navigate(location.state?.from ?? "/discover" )}
+          onClick={() => navigate(location.state?.from ?? "/discover")}
           className="border border-gray-300 text-midnight px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium cursor-pointer"
         >
           Back

@@ -65,9 +65,14 @@ function DiscoverPage() {
           <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
-        ) : (genreError || !genreBooks) 
-        ? <h2>An error has occurred. The data could not be loaded. Please try again later</h2>
-        :(<BookCarousel books={genreBooks} />)}
+        ) : genreError || !genreBooks ? (
+          <h2>
+            An error has occurred. The data could not be loaded. Please try
+            again later
+          </h2>
+        ) : (
+          <BookCarousel books={genreBooks} />
+        )}
       </section>
       <hr />
       <section>
@@ -78,6 +83,11 @@ function DiscoverPage() {
           <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
+        ) : trendingError || !trendingBooks ? (
+          <h2>
+            An error has occurred. The data could not be loaded. Please try
+            again later
+          </h2>
         ) : (
           <BookCarousel books={trendingBooks} />
         )}
@@ -91,6 +101,11 @@ function DiscoverPage() {
           <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
+        ) : classicError || !classicBooks? (
+          <h2>
+            An error has occurred. The data could not be loaded. Please try
+            again later
+          </h2>
         ) : (
           <BookCarousel books={classicBooks} />
         )}

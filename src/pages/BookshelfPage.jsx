@@ -86,7 +86,7 @@ function BookshelfPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-x-2 md:gap-x-4 gap-y-8 mt-10">
+      <section className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-x-2 md:gap-x-4 gap-y-10 mt-10">
         {filteredBooks.map((book) => {
           return (
             <div key={book.id}>
@@ -99,9 +99,14 @@ function BookshelfPage() {
                   />
                 </Link>
               </div>
-
-              <p>{book.title}</p>
-              <p>{book.author}</p>
+              <div className="mt-3 space-y-1">
+                <p className="text-sm font-semibold text-[#1D3151] text-center line-clamp-2 leading-snug min-h-5">
+                  {book.title}
+                </p>
+                <p className="text-xs text-gray-500 text-center">
+                  {book.author}
+                </p>
+              </div>
             </div>
           );
         })}

@@ -13,8 +13,6 @@ function HomePage() {
     error,
   } = useFetchBooks(getTrendingBooks);
 
-  console.log("Trending books: ", trendingBooks);
-
   return (
     <main className="homeContainer">
       {/* Hero Section */}
@@ -62,15 +60,6 @@ function HomePage() {
             <BookCarousel books={trendingBooks} />
           )}
         </div>
-      </section>
-
-      {/* Book Quiz */}
-      <section className="ml-5">
-         <h2 className="text-2xl text-midnight font-semibold">
-            Book quiz
-          </h2>
-        <p></p>
-        <span>Coming soon...</span>
       </section>
     </main>
   );

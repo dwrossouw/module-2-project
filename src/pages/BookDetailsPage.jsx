@@ -17,8 +17,6 @@ function BookDetailsPage() {
   const bookDetails = data?.book;
   const reviewData = data?.review;
 
-  console.log("Review data: ",reviewData);
-
   const handleRemoveBook = async () => {
     try {
       if (reviewData) {

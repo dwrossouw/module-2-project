@@ -70,10 +70,6 @@ function DiscoverBookDetailsPage() {
   }
   if (!bookDetails) return <p>Book not found</p>;
 
-  console.log("Book details: ", bookDetails.subjects);
-  console.log(genres);
-  console.log("location: ",location.state);
-
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       <section className="flex flex-col items-center  pt-8 pb-2 gap-6 md:flex-row md:items-center">

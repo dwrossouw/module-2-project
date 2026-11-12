@@ -12,8 +12,7 @@ function SearchResultsPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
   const location = useLocation();
-  console.log("Search page location: ", location);
-
+  
   useEffect(() => {
     getData();
   }, [query]);
@@ -29,8 +28,6 @@ function SearchResultsPage() {
       setIsLoading(false);
     }
   };
-  console.log(query);
-  console.log("Search results: ", searchResults);
 
   return (
     <div>

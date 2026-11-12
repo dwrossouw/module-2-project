@@ -44,7 +44,6 @@ function EditBookPage() {
   }
 
   const handleFormData = (name, input) => {
-    console.log("Form value:", input);
     const stateCopy = { ...formData };
     stateCopy[name] = name === "rating" ? Number(input) : input;
     setFormData(stateCopy);

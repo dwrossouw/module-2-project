@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { getSavedBooks } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "@/hooks/useFetchBooks";
-import { LibraryBig } from "lucide-react";
+import { LibraryBig, Vault } from "lucide-react";
 import { useState } from "react";
 import { filters } from "@/data/filters";
 import ButtonFilterCard from "@/components/ButtonFilterCard";
@@ -48,6 +48,7 @@ function BookshelfPage() {
   return (
     <main className="max-w-6xl mx-auto px-2 py-4">
       <section className="bg-[#1D3151] rounded-xl px-4 py-4 md:py-10 text-center">
+        <Vault className="mx-auto mb-3 text-[#EAC77B]" size={36} />
         <h1 className="text-3xl md:text-4xl font-semibold text-[#EAC77B]">
           My Vault
         </h1>

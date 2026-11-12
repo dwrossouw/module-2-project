@@ -3,6 +3,7 @@ import { deleteBook, deleteReview, getBookWithReview } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "@/hooks/useFetchBooks";
 import RatingSystem from "@/components/RatingSystem";
+import BookCover from "@/components/BookCover";
 
 function BookDetailsPage() {
   const { bookId } = useParams();
@@ -50,18 +51,19 @@ function BookDetailsPage() {
     );
   }
 
-  console.log(reviewData);
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
       {" "}
       <section className="flex flex-col items-center  pt-8 pb-2 gap-8 md:flex-row md:items-center">
         <div className="book-3d book-3d-large">
-          <img
-            src={`https://covers.openlibrary.org/b/id/${bookDetails.coverId}-L.jpg`}
-            alt="Cover Image"
-            className="w-48 object-cover"
+          <BookCover
+            coverId={bookDetails.coverId}
+            title={bookDetails.title}
+            size={"L"}
+            className={"w-48 object-cover"}
           />
         </div>
+
         <div className="w-full text-center md:flex-1 md:text-left">
           <h1 className="text-3xl font-semibold text-midnight md:text-4xl leading-tight">
             {bookDetails.title}
@@ -70,7 +72,7 @@ function BookDetailsPage() {
             by {bookDetails.author}
           </p>
           <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
-            {bookDetails.genres.map((genre) => (
+            {(bookDetails.genres ?? []).map((genre) => (
               <span
                 key={genre}
                 className="inline-block rounded-full px-3 py-1 text-xs font-medium bg-[#EDE5F5] text-[#70538C]"
@@ -91,7 +93,7 @@ function BookDetailsPage() {
 
             <p className="flex justify-center items-align gap-2">
               My rating:{" "}
-              {reviewData?.rating == null  ? (
+              {reviewData?.rating == null ? (
                 "Not rated yet."
               ) : (
                 <RatingSystem

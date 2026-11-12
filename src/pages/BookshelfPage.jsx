@@ -6,6 +6,7 @@ import { LibraryBig } from "lucide-react";
 import { useState } from "react";
 import { filters } from "@/data/filters";
 import ButtonFilterCard from "@/components/ButtonFilterCard";
+import BookCard from "@/components/BookCard";
 
 function BookshelfPage() {
   const { data: shelfBooks, isLoading, error } = useFetchBooks(getSavedBooks);
@@ -89,25 +90,13 @@ function BookshelfPage() {
       <section className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-x-2 md:gap-x-4 gap-y-10 mt-10">
         {filteredBooks.map((book) => {
           return (
-            <div key={book.id}>
-              <div className="book-3d aspect-[7/10]">
-                <Link to={`/bookshelf/${book.id}`}>
-                  <img
-                    src={`https://covers.openlibrary.org/b/id/${book.coverId}-L.jpg`}
-                    alt="Cover image"
-                    className="w-full h-full object-cover min-w-0"
-                  />
-                </Link>
-              </div>
-              <div className="mt-3 space-y-1">
-                <p className="text-sm font-semibold text-[#1D3151] text-center line-clamp-2 leading-snug min-h-5">
-                  {book.title}
-                </p>
-                <p className="text-xs text-gray-500 text-center">
-                  {book.author}
-                </p>
-              </div>
-            </div>
+            <BookCard
+              key={book.id}
+              coverId={book.coverId}
+              title={book.title}
+              author={book.author}
+              to={`/bookshelf/${book.id}`}
+            />
           );
         })}
       </section>

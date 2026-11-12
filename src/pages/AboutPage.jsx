@@ -129,6 +129,41 @@ function AboutPage() {
           </p>
         </div>
       </section>
+      <section className="text-center">
+        <h3 className="text-xl font-semibold text-midnight mb-2">
+          Data & Acknowledgements
+        </h3>
+        <div className="text-gray-700 leading-relaxed text-center max-w-3xl mx-auto space-y-4">
+          <p>
+            Vault of Tomes uses the{" "}
+            <a
+              href="https://openlibrary.org/developers/api"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4 hover:text-enchanted-teal transition-colors"
+            >
+              Open Library API
+            </a>{" "}
+            to provide book information, author details, and cover images.
+          </p>
+          <p>
+            Open Library is an initiative of the{" "}
+            <a
+              href="https://archive.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4 hover:text-enchanted-teal transition-colors"
+            >
+              Internet Archive
+            </a>
+            , working towards creating a web page for every book ever published.
+          </p>
+          <p>
+            Vault of Tomes is an independent educational project and is not
+            affiliated with or endorsed by Open Library or the Internet Archive.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }

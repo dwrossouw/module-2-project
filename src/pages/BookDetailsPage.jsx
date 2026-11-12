@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import {
-  getReviewDetails,
   deleteBook,
   deleteReview,
   getBookWithReview,

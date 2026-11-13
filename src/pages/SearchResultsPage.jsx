@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, Link, useLocation } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { searchBooksQuery } from "@/services/api";
 import BookLoader from "@/components/BookLoader";
 import SearchBar from "@/components/SearchBar";

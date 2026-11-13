@@ -72,25 +72,25 @@ The app uses the **Open Library API** to find books and display public book info
 
 The application includes pages for Home, Discover, individual book details, My Vault, adding and editing saved books, and About. It also uses reusable components and API requests to keep the interface organised.
 
-
+```text
 module-2-project/
 ├── src/
 │   ├── assets/          # Images and branding
 │   ├── components/      # Reusable UI components
 │   │   └── ui/          # shadcn/ui components
-│   ├── data/            # Filters and genre definitions
+│   ├── data/            # Filters and genres
 │   ├── hooks/           # Custom React hooks
-│   ├── lib/             # Shared library utilities
+│   ├── lib/             # Shared utilities
 │   ├── pages/           # Application views
-│   ├── services/        # API communication
+│   ├── services/        # API requests
 │   ├── utils/           # Helper functions
 │   ├── App.jsx          # Main app and routing
-│   ├── main.jsx         # Application entry point
-│   └── index.css        # Global styles
+│   └── main.jsx         # Entry point
+├── screenshots/         # Application screenshots
 ├── package.json         # Dependencies and scripts
 ├── vite.config.js       # Vite configuration
-├── vercel.json          # Deployment configuration
-└── README.md            # Project documentation
+└── README.md            # Documentation
+```
 
 
 ## Ironhack Module 2 Requirements and Delivery
@@ -144,7 +144,7 @@ This project was an opportunity to practise:
 ### Book Details Page
 ![Book Details Page](./screenshots/bookdetailspage.png)
 ### Edit Book Page
-![Edit Book Page](./screenshots/bookdetailspage.png)
+![Edit Book Page](./screenshots/editbookpage.png)
 
 ## Live Demo and Repository
 

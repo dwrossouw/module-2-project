@@ -6,6 +6,7 @@ import BookLoader from "@/components/BookLoader";
 import { genres } from "@/data/genres";
 import useFetchBooks from "@/hooks/useFetchBooks";
 import { useState } from "react";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function DiscoverPage() {
   const [selectedGenre, setSelectedGenre] = useState("fantasy");
@@ -61,10 +62,7 @@ function DiscoverPage() {
             <BookLoader />
           </div>
         ) : genreError || !genreBooks ? (
-          <h2>
-            An error has occurred. The data could not be loaded. Please try
-            again later
-          </h2>
+          <ErrorMessage />
         ) : (
           <BookCarousel books={genreBooks} />
         )}
@@ -79,10 +77,7 @@ function DiscoverPage() {
             <BookLoader />
           </div>
         ) : trendingError || !trendingBooks ? (
-          <h2>
-            An error has occurred. The data could not be loaded. Please try
-            again later
-          </h2>
+          <ErrorMessage />
         ) : (
           <BookCarousel books={trendingBooks} />
         )}
@@ -96,11 +91,8 @@ function DiscoverPage() {
           <div className="flex justify-center items-center min-h-48">
             <BookLoader />
           </div>
-        ) : classicError || !classicBooks? (
-          <h2>
-            An error has occurred. The data could not be loaded. Please try
-            again later
-          </h2>
+        ) : classicError || !classicBooks ? (
+          <ErrorMessage />
         ) : (
           <BookCarousel books={classicBooks} />
         )}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import BookLoader from "@/components/BookLoader";
 import useFetchBooks from "@/hooks/useFetchBooks";
 import BookCover from "@/components/BookCover";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function DiscoverBookDetailsPage() {
   const { workId } = useParams();
@@ -12,6 +13,7 @@ function DiscoverBookDetailsPage() {
   const location = useLocation();
 
   const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const { data, isLoading, error } = useFetchBooks(getBookWithAuthor, workId);
   const bookDetails = data?.book;
@@ -37,6 +39,8 @@ function DiscoverBookDetailsPage() {
   };
 
   const handleAddBook = async () => {
+    if (isSaving || isSaved) return;
+    setIsSaving(true);
     const book = {
       id: workId,
       title: bookDetails.title,
@@ -57,6 +61,8 @@ function DiscoverBookDetailsPage() {
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -67,13 +73,18 @@ function DiscoverBookDetailsPage() {
       </div>
     );
   }
+  if (error?.response?.status === 404) {
+    return <ErrorMessage message="We couldn't find this book in the vault." />;
+  }
   if (error)
     return (
-      <h2>
-        Something went wrong while loading this book. Please try again later.
-      </h2>
+      <ErrorMessage
+        message={
+          "Something went wrong while loading this book. Please try again later."
+        }
+      />
     );
-  if (!bookDetails) return <p>Book not found</p>;
+  if (!bookDetails) return <ErrorMessage message="Book not found." />;
 
   return (
     <div className="mx-auto max-w-4xl px-4 space-y-8">
@@ -107,10 +118,14 @@ function DiscoverBookDetailsPage() {
           <button
             type="button"
             onClick={handleAddBook}
-            disabled={isSaved}
+            disabled={isSaved || isSaving}
             className="rounded-lg mt-6 px-5 py-2.5 bg-enchanted-teal hover:bg-[#1D6667] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium disabled:hover:bg-enchanted-teal"
           >
-            {isSaved === false ? "Save to Vault" : "Already saved"}
+            {isSaving
+              ? "Saving to Vault..."
+              : isSaved
+                ? "Already saved"
+                : "Save to Vault"}
           </button>
         </div>
       </section>

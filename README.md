@@ -38,8 +38,8 @@ The app uses the **Open Library API** to find books and display public book info
 1.  Clone this repository:
     
     ```
-    git clone https://github.com/dwrossouw/module-2-project.git
-    cd module-2-project
+    git clone https://github.com/dwrossouw/vault-of-tomes-frontend.git
+    cd vault-of-tomes-frontend
     ```
     
 2.  Install dependencies:
@@ -73,7 +73,7 @@ The app uses the **Open Library API** to find books and display public book info
 The application includes pages for Home, Discover, individual book details, My Vault, adding and editing saved books, and About. It also uses reusable components and API requests to keep the interface organised.
 
 ```text
-module-2-project/
+vault-of-tomes-frontend/
 ├── src/
 │   ├── assets/          # Images and branding
 │   ├── components/      # Reusable UI components
@@ -149,8 +149,8 @@ This project was an opportunity to practise:
 ## Live Demo and Repository
 
 -   **Live app (Vercel):** [https://vault-of-tomes.vercel.app/](https://vault-of-tomes.vercel.app/)
--   **Frontend GitHub repository:** [https://github.com/dwrossouw/module-2-project](https://github.com/dwrossouw/module-2-project)
--   **Backend GitHub repository:** [https://github.com/dwrossouw/module2-project-json-server](https://github.com/dwrossouw/module2-project-json-server)
+-   **Frontend GitHub repository:** [https://github.com/dwrossouw/vault-of-tomes-frontend](https://github.com/dwrossouw/vault-of-tomes-frontend)
+-   **Backend GitHub repository:** [https://github.com/dwrossouw/vautl-of-tomes-backend](https://github.com/dwrossouw/vautl-of-tomes-backend)
 -   **JSON Server backend (Render):** [https://module2-project-json-server-21pu.onrender.com/](https://module2-project-json-server-21pu.onrender.com/)
 
 ## Future Improvements

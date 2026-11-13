@@ -86,7 +86,7 @@ function BookDetailsPage() {
               </span>
             ))}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 ">
             <p className="mt-2">
               Status:
               <span
@@ -96,7 +96,7 @@ function BookDetailsPage() {
               </span>
             </p>
 
-            <p className="flex justify-center items-align gap-2">
+            <p className="flex justify-center md:justify-start items-center gap-2" >
               My rating:{" "}
               {reviewData?.rating == null ? (
                 "Not rated yet."

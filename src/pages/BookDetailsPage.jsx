@@ -16,6 +16,11 @@ function BookDetailsPage() {
   const reviewData = data?.review;
 
   const handleRemoveBook = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to remove this book from your vault? This action cannot be undone.",
+    );
+
+    if (!confirmed) return;
     try {
       if (reviewData) {
         await deleteReview(reviewData.id);
